@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using System.Numerics;
+
 using TMPro;
+using Unity.Android.Gradle;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,6 +19,11 @@ public class PlayerVehicleController : MonoBehaviour
     private static readonly WheelType[] _wheels = new WheelType[]
     {
         WheelType.FrontLeft, WheelType.FrontRight, WheelType.BackLeft, WheelType.BackRight
+    };
+
+    private static readonly WheelType[] _backWheels = new WheelType[]
+    {
+        WheelType.BackLeft, WheelType.BackRight
     };
 
     [Header("References")]
@@ -50,6 +56,8 @@ public class PlayerVehicleController : MonoBehaviour
         UpdateSuspension();
         UpdateSteering();
         UpdateAcceleration();
+        UpdateBreaks();
+        UpdateAirResistance();
     }
 
     private void SetSteerInput(float steerInput)
@@ -134,6 +142,66 @@ public class PlayerVehicleController : MonoBehaviour
         }
     }
 
+    private void UpdateBreaks()
+    {
+        float forwardSpeed = Vector3.Dot(transform.forward, _vehicleRigidbody.linearVelocity);
+        float speed = Mathf.Abs(forwardSpeed);
+        float breakRatio;
+
+
+        const float ALMOST_STOPPING_SPEED = 2f;
+        bool almostStopping = speed < ALMOST_STOPPING_SPEED;
+
+        if (almostStopping)
+        {
+            breakRatio = 1f;
+        }
+        else
+        {
+            bool accelerateContrary =
+            !Mathf.Approximately(_accelerationInput, 0f) &&
+            Vector3.Dot(_accelerationInput * transform.forward, _vehicleRigidbody.linearVelocity) < 0f;
+
+            if (accelerateContrary)
+            {
+                breakRatio = 1f;
+            }
+            else if (Mathf.Approximately(_accelerationInput, 0f))
+            {
+                breakRatio = 0.1f;
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
+        foreach (WheelType wheelType in _backWheels)
+        {
+            if (!IsGrounded(wheelType))
+            {
+                continue;
+            }
+
+            Vector3 springPosition = GetSpringPosition(wheelType);
+            Vector3 rollDirection = GetWheelRollDirection(wheelType);
+            float rollVelocity = Vector3.Dot(rollDirection, _vehicleRigidbody.GetPointVelocity(springPosition));
+
+            float desiredVelocityChange = -rollVelocity * breakRatio * _vehicleSettings.BrakePower;
+            float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
+
+            Vector3 force = desiredAcceleration * _vehicleSettings.TireMass * rollDirection;
+            _vehicleRigidbody.AddForceAtPosition(force, GetWheelTorquePosition(wheelType));
+        }
+
+    }
+
+    private void UpdateAirResistance()
+    {
+        _vehicleRigidbody.AddForce(_VehicleColider.size.magnitude * -_vehicleRigidbody.linearVelocity * _vehicleSettings.AirResistance);
+    }
+
 
     private Vector3 GetWheelSlideDirection(WheelType wheelType)
     {
@@ -147,7 +215,7 @@ public class PlayerVehicleController : MonoBehaviour
 
         if (frontWheels)
         {
-            var steerQuaternion = UnityEngine.Quaternion.AngleAxis(_steerInput * _vehicleSettings.SteerAngle, Vector3.up);
+            var steerQuaternion = Quaternion.AngleAxis(_steerInput * _vehicleSettings.SteerAngle, Vector3.up);
             return steerQuaternion * transform.forward;
         }
         else
