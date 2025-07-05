@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using TMPro;
 using Unity.Android.Gradle;
 using Unity.Mathematics;
@@ -34,6 +33,10 @@ public class PlayerVehicleController : MonoBehaviour
     private Dictionary<WheelType, SpringData> _springDatas;
     private float _steerInput;
     private float _accelerationInput;
+
+    public Vector3 Velocity => _vehicleRigidbody.linearVelocity;
+    public Vector3 Forward => transform.forward;
+    public VehicleSettingsSO Settings => _vehicleSettings;
 
     private void Awake()
     {
@@ -117,7 +120,7 @@ public class PlayerVehicleController : MonoBehaviour
         bool movingForward = forwardSpeed > 0f;
         float speed = Mathf.Abs(forwardSpeed);
 
-        if (movingForward && speed >_vehicleSettings.MaxSpeed)
+        if (movingForward && speed > _vehicleSettings.MaxSpeed)
         {
             return;
         }
@@ -125,7 +128,7 @@ public class PlayerVehicleController : MonoBehaviour
         {
             return;
         }
-       
+
 
         foreach (WheelType wheelType in _wheels)
         {
@@ -266,10 +269,10 @@ public class PlayerVehicleController : MonoBehaviour
             _ => default
         };
     }
-    
+
     private Vector3 GetWheelTorquePosition(WheelType wheelType)
     {
-       return transform.localToWorldMatrix.MultiplyPoint3x4(GetWheelRelativeTorquePosition(wheelType));
+        return transform.localToWorldMatrix.MultiplyPoint3x4(GetWheelRelativeTorquePosition(wheelType));
     }
 
     private Vector3 GetWheelRelativeTorquePosition(WheelType wheelType)
@@ -283,7 +286,7 @@ public class PlayerVehicleController : MonoBehaviour
         return wheelType switch
         {
             WheelType.FrontLeft => new Vector3(boxSize.x * (paddingX - 0.5f), 0f, boxSize.z * (0.5f - paddingZ)),
-            WheelType.FrontRight => new Vector3(boxSize.x * (0.5f - paddingX),0f, boxSize.z * (0.5f - paddingZ)),
+            WheelType.FrontRight => new Vector3(boxSize.x * (0.5f - paddingX), 0f, boxSize.z * (0.5f - paddingZ)),
             WheelType.BackLeft => new Vector3(boxSize.x * (paddingX - 0.5f), 0f, boxSize.z * (paddingZ - 0.5f)),
             WheelType.BackRight => new Vector3(boxSize.x * (0.5f - paddingX), 0f, boxSize.z * (paddingZ - 0.5f)),
             _ => default
@@ -301,6 +304,13 @@ public class PlayerVehicleController : MonoBehaviour
     private bool IsGrounded(WheelType wheelType)
     {
         return _springDatas[wheelType]._currentLenght < _vehicleSettings.SpringRestLenght;
+    }
+    
+
+
+    public float GetSpringCurrentLenght(WheelType wheelType)
+    {
+        return _springDatas[wheelType]._currentLenght;
     }
 }
 
