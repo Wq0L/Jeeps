@@ -1181,8 +1181,8 @@ MonoBehaviour:
   _wheelBackLeft: {fileID: 4780497851388817531}
   _wheelBackRight: {fileID: 4780497851388817533}
   _wheelsSpinSpeed: 70
-  _wheelYWhenSpringMin: 0
-  _wheelYWhenSpringMax: 0
+  _wheelYWhenSpringMin: 0.6
+  _wheelYWhenSpringMax: 0.3
 --- !u!4 &4780497851388817521
 Transform:
   m_ObjectHideFlags: 0

@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53d85ac127e86f14f979a366e8bfbf86, type: 3}
-  m_Name: Vehicle Settnigs
+  m_Script: {fileID: 11500000, guid: 2aeb7d6d92f125e4d917b8c1b939c99f, type: 3}
+  m_Name: VehicleSettings
   m_EditorClassIdentifier: 
   _wheelsPaddingX: 0.06
   _wheelsPaddingZ: 0.12
   _springRestLenght: 0.8
-  _springStrenght: 1200
+  _springStrength: 1200
   _springDamper: 75
   _steerAngle: 20
   _frontWheelsGripFactor: 0.8
@@ -24,5 +24,5 @@ MonoBehaviour:
   _acceleratePower: 300
   _maxSpeed: 22
   _maxReverseSpeed: 12
-  _brakePower: 1.5
+  _brakesPower: 1.5
   _airResistance: 5
