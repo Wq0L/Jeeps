@@ -1743,6 +1743,7 @@ GameObject:
   - component: {fileID: 1550158219479566845}
   - component: {fileID: 2218185667061158728}
   - component: {fileID: 2218185667061158730}
+  - component: {fileID: 2218185667061158731}
   - component: {fileID: 2218185667061158729}
   m_Layer: 0
   m_Name: MysteryBox
@@ -1812,7 +1813,36 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _boxAnimator: {fileID: 7153229122622745503}
   _boxCollider: {fileID: 2218185667061158729}
-  _respawnTimer: 5
+  _respawnTimer: 20
+--- !u!114 &2218185667061158731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2218185667061158727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 598370456
+    DestinationState: 1937637293
+    TransitionDuration: 0
+    TriggerNameHash: 2145687175
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1937637293
+    DestinationState: 1073030454
+    TransitionDuration: 0
+    TriggerNameHash: -1957187052
+    TransitionIndex: 0
+  m_Animator: {fileID: 7153229122622745503}
 --- !u!33 &3829290994219893231
 MeshFilter:
   m_ObjectHideFlags: 0

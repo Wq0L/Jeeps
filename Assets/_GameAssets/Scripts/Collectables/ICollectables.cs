@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public interface ICollectables 
+public interface ICollectables
 {
    void Collect();
+
+   void CollectRpc();
 }

@@ -13,6 +13,12 @@ public class MystreyBoxCollectables : NetworkBehaviour, ICollectables
     public void Collect()
     {
         Debug.Log("Mystery Box Collected");
+        CollectRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void CollectRpc()
+    {
         AnimateCollection();
         Invoke(nameof(Respawn), _respawnTimer);
     }
