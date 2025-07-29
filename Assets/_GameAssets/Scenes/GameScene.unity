@@ -1401,6 +1401,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 787704155}
+  - component: {fileID: 787704157}
+  - component: {fileID: 787704156}
   m_Layer: 5
   m_Name: SkillImage
   m_TagString: Untagged
@@ -1427,6 +1429,44 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 225, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &787704156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787704154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &787704157
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787704154}
+  m_CullTransparentMesh: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1705,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1099f8fedd85bb4b9cd88af819016c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _skillIconImage: {fileID: 787704156}
+  _skillNameText: {fileID: 1324421866}
+  _skillCounterText: {fileID: 212334057}
+  _skillCounterBackgroundTransform: {fileID: 491302874}
 --- !u!1 &1301011909
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,9 +2482,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  _mysteryBoxSkills:
+  - {fileID: 11400000, guid: 3d98c236447a9c44295c4c107bf064c0, type: 2}
+  - {fileID: 11400000, guid: 5bc2e61d85475914dbcbe7b02bef8e7e, type: 2}
+  - {fileID: 11400000, guid: 37d54434ebfd4c248b5f88aa0b13b911, type: 2}
+  - {fileID: 11400000, guid: 601b4aa26eaf63740b2a970bfb68f7b9, type: 2}
+  - {fileID: 11400000, guid: f4c3576f478bc874f9c32c3b2d50a129, type: 2}
   _boxAnimator: {fileID: 7153229122622745503}
   _boxCollider: {fileID: 2218185667061158729}
-  _respawnTimer: 20
+  _respawnTimer: 5
 --- !u!114 &2218185667061158731
 MonoBehaviour:
   m_ObjectHideFlags: 0
