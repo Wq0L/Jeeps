@@ -11,10 +11,16 @@ public class MystreyBoxCollectables : NetworkBehaviour, ICollectables
     [Header("Mystery Box Settings")]
     [SerializeField] private float _respawnTimer;
 
-    public void Collect()
+    public void Collect(PlayerSkillController playerSkillController)
     {
+        if (playerSkillController.HasSkillAlready())
+        {
+            return; // Player already has a skill, do not collect
+        }
+
         MysteryBoxSkillsSO skill = GetRandomSkill();
         SkillsUI.Instance.SetSkill(skill.SkillName, skill.SkillIcon);
+        playerSkillController.SetupSkill(skill);
         CollectRpc();
     }
 
