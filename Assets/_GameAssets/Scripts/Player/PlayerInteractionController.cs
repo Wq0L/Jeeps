@@ -16,7 +16,7 @@ public class PlayerInteractionController : NetworkBehaviour
         if (!IsOwner) return;
         if (other.gameObject.TryGetComponent(out ICollectables collectable))
         {
-            collectable.Collect(_playerSkillController);
+            collectable.Collect(_playerSkillController);//fettah
 
         }
     }
