@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f10abe94f523b14f8a1981524a21c85, type: 3}
   m_Name: SpikeSkillData
   m_EditorClassIdentifier: 
-  _skillPrefab: {fileID: 0}
+  _skillPrefab: {fileID: 3151531873833541973, guid: 99b3c87a492e73d429ee5288421c6b76, type: 3}
