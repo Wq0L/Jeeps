@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: ShieldSkillData
   m_EditorClassIdentifier: 
   _skillPrefab: {fileID: 7596493173168988033, guid: fc02694fb07dcf74b803c2f03b3a23ab, type: 3}
+  _skillOffset: {x: 0, y: 0, z: 0}
+  _spawnAmountOrTimer: 7
+  _shouldBeAttacdhedToParent: 1
+  _respawnTimer: 0
+  _damageAmount: 0

@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: RocketSkillData
   m_EditorClassIdentifier: 
   _skillPrefab: {fileID: 1678177258916483657, guid: bcd138b222126a84c9ff73ed2ed26af8, type: 3}
+  _skillOffset: {x: 0, y: 0.5, z: 2.3}
+  _spawnAmountOrTimer: 0
+  _shouldBeAttacdhedToParent: 0
+  _respawnTimer: 5
+  _damageAmount: 100

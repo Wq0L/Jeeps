@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: MineSkillData
   m_EditorClassIdentifier: 
   _skillPrefab: {fileID: 799316496731754241, guid: 685e324c42b3d184ba5e9e52ead91f84, type: 3}
+  _skillOffset: {x: 0, y: 0, z: -3}
+  _spawnAmountOrTimer: 3
+  _shouldBeAttacdhedToParent: 0
+  _respawnTimer: 5
+  _damageAmount: 100
