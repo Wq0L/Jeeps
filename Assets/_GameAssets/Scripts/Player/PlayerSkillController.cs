@@ -28,7 +28,8 @@ public class PlayerSkillController : NetworkBehaviour
     public void ActivateSkill()
     {
         if (!_hasSkillAlready) { return; }
-
+        SkillManager.Instance.ActivateSkill(_mysteryBoxSkill.SkillType, transform, OwnerClientId);
+        
         SkillsUI.Instance.SetSkillToNone();
         _hasSkillAlready = false;
         Debug.Log("Skill deactivated: " + _mysteryBoxSkill.SkillType);
