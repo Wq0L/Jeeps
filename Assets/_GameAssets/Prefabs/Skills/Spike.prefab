@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 3151531873833541973}
   - component: {fileID: 9022203724794023390}
   - component: {fileID: 2564163408509358566}
+  - component: {fileID: 5451953483502049645}
   - component: {fileID: 94755897128414517}
   m_Layer: 0
   m_Name: Spike
@@ -450,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 740852627
+  GlobalObjectIdHash: 1718429295
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 8
@@ -478,6 +479,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 4647358550809113591}
+--- !u!114 &5451953483502049645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787399194991329974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf31ea73a11af6d4396b3dff31130dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _spikeCollider: {fileID: 94755897128414517}
 --- !u!65 &94755897128414517
 BoxCollider:
   m_ObjectHideFlags: 0

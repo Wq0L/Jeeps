@@ -1709,6 +1709,7 @@ MonoBehaviour:
   _skillNameText: {fileID: 1324421866}
   _skillCounterText: {fileID: 212334057}
   _skillCounterBackgroundTransform: {fileID: 491302874}
+  _scaleDuration: 0.2
 --- !u!1 &1301011909
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,6 +2472,10 @@ PrefabInstance:
       propertyPath: _mysteryBoxSkills.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5113297668739984103, guid: 5d979def9e274aa49b3c414b7b298bf1, type: 3}
+      propertyPath: '_mysteryBoxSkills.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5bc2e61d85475914dbcbe7b02bef8e7e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

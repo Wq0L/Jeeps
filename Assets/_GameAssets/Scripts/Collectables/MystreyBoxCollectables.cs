@@ -19,7 +19,7 @@ public class MystreyBoxCollectables : NetworkBehaviour, ICollectables
         }
 
         MysteryBoxSkillsSO skill = GetRandomSkill();
-        SkillsUI.Instance.SetSkill(skill.SkillName, skill.SkillIcon);
+        SkillsUI.Instance.SetSkill(skill.SkillName, skill.SkillIcon, skill.SkillUsageType, skill.SkillData.SpawnAmountOrTimer);
         playerSkillController.SetupSkill(skill);
         CollectRpc();
     }

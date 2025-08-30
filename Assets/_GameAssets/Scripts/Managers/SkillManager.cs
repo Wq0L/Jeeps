@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
 public class SkillManager : NetworkBehaviour
 {
     public static SkillManager Instance { get; private set; }
+    public event Action OnMineCountReduced;
     [SerializeField] private MysteryBoxSkillsSO[] _mysteryBoxSkills;
     [SerializeField] private LayerMask _groundLayer;
 
@@ -44,7 +47,7 @@ public class SkillManager : NetworkBehaviour
         SpawnSkill(skillTransformDataSerializable, spawnerClientId);
     }
 
-    private void SpawnSkill(SkillTransformDataSerializable skillTransformDataSerializable,
+    private async void SpawnSkill(SkillTransformDataSerializable skillTransformDataSerializable,
     ulong spawnerClientId)
     {
         if (!_skillDictionary.TryGetValue(skillTransformDataSerializable.SkillType, out MysteryBoxSkillsSO skillData))
@@ -55,7 +58,17 @@ public class SkillManager : NetworkBehaviour
 
         if (skillTransformDataSerializable.SkillType == SkillType.Mine)
         {
-            //mayın özel
+            Vector3 spawnPosition = skillTransformDataSerializable.Position;
+            Vector3 spawnDirection = skillTransformDataSerializable.Rotation * Vector3.forward;
+
+            for (int i = 0; i < skillData.SkillData.SpawnAmountOrTimer; i++)
+            {
+                Vector3 offset = spawnDirection * (i * 3f);
+                skillTransformDataSerializable.Position = spawnPosition + offset;
+                Spawn(skillTransformDataSerializable, spawnerClientId, skillData);
+                await UniTask.Delay(200);
+                OnMineCountReduced?.Invoke();
+            }
         }
         else
         {
@@ -81,7 +94,9 @@ public class SkillManager : NetworkBehaviour
                 }
                 else
                 {
-                    //roket özel
+                    PlayerSkillController playerSkillController = client.PlayerObject.GetComponent<PlayerSkillController>();
+                    networkObject.transform.localPosition = playerSkillController.GetRocketLauncherPosition();
+                    return;
                 }
 
                 if (skillData.SkillData.ShouldBeAttacdhedToParent)
