@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PlayerVehicleController : NetworkBehaviour
 {
+    public event Action OnVehicleCrash;
     public class SpringData
     {
         public float _currentLength;
@@ -27,6 +28,11 @@ public class PlayerVehicleController : NetworkBehaviour
     [SerializeField] private VehicleSettingsSO _vehicleSettings;
     [SerializeField] private Rigidbody _vehicleRigidbody;
     [SerializeField] private BoxCollider _vehicleCollider;
+
+    [Header("Settings")]
+    [SerializeField] private float _crashForce;
+    [SerializeField] private float _crashTorque;
+
 
     private Dictionary<WheelType, SpringData> _springDatas;
     private float _steerInput;
@@ -60,6 +66,8 @@ public class PlayerVehicleController : NetworkBehaviour
         }
         SetSteerInput(Input.GetAxis("Horizontal"));
         SetAccelerateInput(Input.GetAxis("Vertical"));
+
+
     }
 
     private void FixedUpdate()
@@ -323,6 +331,18 @@ public class PlayerVehicleController : NetworkBehaviour
             await UniTask.DelayFrame(1);
             _vehicleRigidbody.isKinematic = false;
         }
+    }
+    public void CrashVehicle()
+    {
+        OnVehicleCrash?.Invoke();
+
+        _vehicleRigidbody.AddForce(Vector3.up * _crashForce, ForceMode.Impulse);
+        _vehicleRigidbody.AddTorque(Vector3.forward * _crashTorque, ForceMode.Impulse);
+        enabled = false;
+    }
+    public void OnPlayerRespawned()
+    {
+        enabled = true;
     }
 }
 

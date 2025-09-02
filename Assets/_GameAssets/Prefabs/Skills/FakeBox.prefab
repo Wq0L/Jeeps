@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 7653577397646289746}
   - component: {fileID: 6618624712940470196}
   - component: {fileID: 1145884455410919201}
+  - component: {fileID: 9206803739784522935}
   - component: {fileID: 6474919993569413631}
   m_Layer: 0
   m_Name: FakeBox
@@ -443,6 +444,20 @@ MonoBehaviour:
   _fakeBoxCollider: {fileID: 6474919993569413631}
   _arrowRectTransform: {fileID: 721185623003480407}
   _animationDuration: 0.5
+--- !u!114 &9206803739784522935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8268919531359135556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7a163ee78eb04eb9718d70abed4ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _mysteryBoxSkillsSO: {fileID: 11400000, guid: 3d98c236447a9c44295c4c107bf064c0, type: 2}
 --- !u!65 &6474919993569413631
 BoxCollider:
   m_ObjectHideFlags: 0

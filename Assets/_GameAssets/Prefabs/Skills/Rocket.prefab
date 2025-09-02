@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 59055963662157551}
   - component: {fileID: 4635589194043814102}
   - component: {fileID: 53353417517858384}
+  - component: {fileID: 2247537920350474857}
   - component: {fileID: 5564547861936741754}
   - component: {fileID: 3570104267537104973}
   - component: {fileID: 102528823224373745}
@@ -212,6 +213,20 @@ MonoBehaviour:
   _movementSpeed: 40
   _rotationSpeed: 300
   _isMoving: 0
+--- !u!114 &2247537920350474857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956848276221527071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19fd7249b9e392489d903a02418724e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  _mysteryBoxSkillsSO: {fileID: 11400000, guid: 37d54434ebfd4c248b5f88aa0b13b911, type: 2}
 --- !u!54 &5564547861936741754
 Rigidbody:
   m_ObjectHideFlags: 0

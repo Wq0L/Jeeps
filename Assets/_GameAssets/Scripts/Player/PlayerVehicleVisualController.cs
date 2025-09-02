@@ -1,10 +1,15 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class PlayerVehicleVisualController : NetworkBehaviour
 {
     [SerializeField] private PlayerVehicleController _playerVehicleController;
+    [SerializeField] private Transform _jeepVisualTransform;
+    [SerializeField] private Collider _playerCollider;
     [SerializeField] private Transform _wheelFrontLeft, _wheelFrontRight, _wheelBackLeft, _wheelBackRight;
     [SerializeField] private float _wheelsSpinSpeed, _wheelYWhenSpringMin, _wheelYWhenSpringMax;
 
@@ -16,13 +21,24 @@ public class PlayerVehicleVisualController : NetworkBehaviour
     private float _steerInput;
     private float _steerAngle;
 
-    private Dictionary<WheelType, float> _springsCurrentLength = new ()
+    private Dictionary<WheelType, float> _springsCurrentLength = new()
     {
         { WheelType.FrontLeft, 0f },
         { WheelType.FrontRight, 0f },
         { WheelType.BackLeft, 0f },
         { WheelType.BackRight, 0f }
     };
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) { return; }
+        _playerVehicleController.OnVehicleCrash += PlayerVehicleController_OnVehicleCrash;
+    }
+
+    private void PlayerVehicleController_OnVehicleCrash()
+    {
+        enabled = false;
+    }
 
     private void Start()
     {
@@ -35,7 +51,7 @@ public class PlayerVehicleVisualController : NetworkBehaviour
 
     private void Update()
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             return;
         }
@@ -58,22 +74,22 @@ public class PlayerVehicleVisualController : NetworkBehaviour
 
     private void RotateWheels()
     {
-        if(_springsCurrentLength[WheelType.FrontLeft] < _springRestLength)
+        if (_springsCurrentLength[WheelType.FrontLeft] < _springRestLength)
         {
             _wheelFrontLeftRoll *= Quaternion.AngleAxis(_forwardSpeed * _wheelsSpinSpeed * Time.deltaTime, Vector3.right);
         }
 
-        if(_springsCurrentLength[WheelType.FrontRight] < _springRestLength)
+        if (_springsCurrentLength[WheelType.FrontRight] < _springRestLength)
         {
             _wheelFrontRightRoll *= Quaternion.AngleAxis(_forwardSpeed * _wheelsSpinSpeed * Time.deltaTime, Vector3.right);
         }
 
-        if(_springsCurrentLength[WheelType.BackLeft] < _springRestLength)
+        if (_springsCurrentLength[WheelType.BackLeft] < _springRestLength)
         {
             _wheelBackLeft.localRotation *= Quaternion.AngleAxis(_forwardSpeed * _wheelsSpinSpeed * Time.deltaTime, Vector3.right);
         }
 
-        if(_springsCurrentLength[WheelType.BackRight] < _springRestLength)
+        if (_springsCurrentLength[WheelType.BackRight] < _springRestLength)
         {
             _wheelBackRight.localRotation *= Quaternion.AngleAxis(_forwardSpeed * _wheelsSpinSpeed * Time.deltaTime, Vector3.right);
         }
@@ -92,7 +108,7 @@ public class PlayerVehicleVisualController : NetworkBehaviour
         _wheelFrontLeft.localPosition = new Vector3(_wheelFrontLeft.localPosition.x,
             _wheelYWhenSpringMin + (_wheelYWhenSpringMax - _wheelYWhenSpringMin) * springFrontLeftRatio,
             _wheelFrontLeft.localPosition.z);
-        
+
         _wheelFrontRight.localPosition = new Vector3(_wheelFrontRight.localPosition.x,
             _wheelYWhenSpringMin + (_wheelYWhenSpringMax - _wheelYWhenSpringMin) * springFrontRightRatio,
             _wheelFrontRight.localPosition.z);
@@ -100,9 +116,34 @@ public class PlayerVehicleVisualController : NetworkBehaviour
         _wheelBackLeft.localPosition = new Vector3(_wheelBackLeft.localPosition.x,
             _wheelYWhenSpringMin + (_wheelYWhenSpringMax - _wheelYWhenSpringMin) * springBackLeftRatio,
             _wheelBackLeft.localPosition.z);
-        
+
         _wheelBackRight.localPosition = new Vector3(_wheelBackRight.localPosition.x,
             _wheelYWhenSpringMin + (_wheelYWhenSpringMax - _wheelYWhenSpringMin) * springBackRightRatio,
             _wheelBackRight.localPosition.z);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetJeepVisualActiveRpc(bool isActive)
+    {
+
+        _jeepVisualTransform.gameObject.SetActive(isActive);
+
+    }
+
+    private IEnumerator SetVehicleActiveCoroutine(float delay)
+    {
+        SetJeepVisualActiveRpc(false);
+        _playerCollider.enabled = false;
+
+        yield return new WaitForSeconds(delay);
+
+        SetJeepVisualActiveRpc(true);
+        _playerCollider.enabled = true;
+        enabled = true;
+    }
+    
+    public void SetVehicleVisualActive(float delay)
+    {
+        StartCoroutine(SetVehicleActiveCoroutine(delay));
     }
 }
