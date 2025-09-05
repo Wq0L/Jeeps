@@ -55,6 +55,8 @@ public class PlayerVehicleVisualController : NetworkBehaviour
         {
             return;
         }
+        
+        if (GameManager.Instance.GetGameState() != GameState.Playing) { return; }
         UpdateVisualStates();
         RotateWheels();
         SetSuspension();
