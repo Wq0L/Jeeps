@@ -24,9 +24,15 @@ public class ApplicationController : MonoBehaviour
         {
             HostSingleton hostSingletonInstance = Instantiate(_hostSingletonPrefab);
             hostSingletonInstance.CreateHost();
+
             Debug.Log("Launching in Client Mode");
             ClientSingleton clientSingletonInstance = Instantiate(_clientSingletonPrefab);
-            await clientSingletonInstance.CreateClient();
+            bool isAuthenticated = await clientSingletonInstance.CreateClient();
+
+            if (isAuthenticated)
+            {
+                clientSingletonInstance.ClientGameManager.GoToMainMenu();
+            }
         }
     }
 }
