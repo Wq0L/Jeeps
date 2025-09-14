@@ -32,6 +32,11 @@ public class ClientSingleton : MonoBehaviour
     public async UniTask<bool> CreateClient()
     {
         ClientGameManager = new ClientGameManager();
-       return await ClientGameManager.InitAsync();
+        return await ClientGameManager.InitAsync();
+    }
+
+    private void OnDestroy()
+    {
+        ClientGameManager?.Dispose();
     }
 }

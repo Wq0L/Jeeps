@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class HostSingleton : MonoBehaviour
 {
-   private static HostSingleton instance;
-    public HostGameManager HostGameManager{ get; private set; }
+    private static HostSingleton instance;
+    public HostGameManager HostGameManager { get; private set; }
     public static HostSingleton Instance
     {
         get
@@ -31,5 +31,10 @@ public class HostSingleton : MonoBehaviour
     public void CreateHost()
     {
         HostGameManager = new HostGameManager();
+    }
+
+    private void OnDestroy()
+    {
+        HostGameManager?.Dispose();
     }
 }
