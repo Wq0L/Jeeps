@@ -1,17 +1,29 @@
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
+using Unity.Collections;
+using TMPro;
 
 public class PlayerNetworkController : NetworkBehaviour
 {
     [SerializeField] private CinemachineCamera _playerCamera;
+    [SerializeField] private TMP_Text _playerNameText;
     private PlayerVehicleController _playerVehicleController;
     private PlayerSkillController _playerSkillController;
     private PlayerInteractionController _playerInteractionController;
+    public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
 
     public override void OnNetworkSpawn()
     {
         _playerCamera.gameObject.SetActive(IsOwner);
+
+        if (IsServer)
+        {
+            UserData userData = HostSingleton.Instance.HostGameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
+            PlayerName.Value = userData.UserName;
+            SetPlayerNameRpc();
+            
+        }
 
         if (!IsOwner) { return; }
         _playerVehicleController = GetComponent<PlayerVehicleController>();
@@ -24,6 +36,12 @@ public class PlayerNetworkController : NetworkBehaviour
         _playerVehicleController.OnPlayerRespawned();
         _playerSkillController.OnPlayerRespawned();
         _playerInteractionController.OnPlayerRespawned();
-       
+
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetPlayerNameRpc()
+    {
+        _playerNameText.text = PlayerName.Value.ToString();
     }
 }

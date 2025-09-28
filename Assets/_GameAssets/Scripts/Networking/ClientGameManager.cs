@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using Cysharp.Threading.Tasks;
-using Unity.Android.Gradle.Manifest;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
@@ -15,6 +14,7 @@ public class ClientGameManager : IDisposable
 {
     private JoinAllocation _joinAllocation;
     private NetworkClient _networkClient;
+    private string _joinCode;
     public async UniTask<bool> InitAsync()
     {
         await UnityServices.InitializeAsync();
@@ -62,6 +62,20 @@ public class ClientGameManager : IDisposable
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
         NetworkManager.Singleton.StartClient();
+    }
+    public void SetLobbyJoinCode(string joinCode)
+    {
+        _joinCode = joinCode;
+    }
+
+    public string GetJoinCode()
+    {
+        return _joinCode;
+    }
+
+    public void Disconnect()
+    {
+        _networkClient.Disconnect();
     }
 
     public void Dispose()

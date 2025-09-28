@@ -1,11 +1,13 @@
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using Unity.Services.Lobbies.Models;
 
 public class PlayerInteractionController : NetworkBehaviour
 {
     private PlayerSkillController _playerSkillController;
     private PlayerVehicleController _playerVehicleController;
+    private PlayerHealthController _playerHealthController;
     private bool _isCrashed;
     private bool _isShieldActive;
     private bool _isSpikeActive;
@@ -15,6 +17,7 @@ public class PlayerInteractionController : NetworkBehaviour
         if (!IsOwner) return;
         _playerSkillController = GetComponent<PlayerSkillController>();
         _playerVehicleController = GetComponent<PlayerVehicleController>();
+        _playerHealthController = GetComponent<PlayerHealthController>();
 
         _playerVehicleController.OnVehicleCrash += PlayerVehicleController_OnVehicleCrash;
     }
@@ -66,6 +69,7 @@ public class PlayerInteractionController : NetworkBehaviour
     private void CrashTheVehicle(IDamageble damageable)
     {
         damageable.Damage(_playerVehicleController);
+        _playerHealthController.TakeDamage(damageable.GetDamageAmount());
         SetKillerUIRpc(damageable.GetKillerClientId(),
         RpcTarget.Single(damageable.GetKillerClientId(), RpcTargetUse.Temp));
         SpawnerManager.Instance.RespawnPlayer(damageable.GetRespawnTimer(), OwnerClientId);
@@ -84,6 +88,7 @@ public class PlayerInteractionController : NetworkBehaviour
     {
         enabled = true;
         _isCrashed = false;
+        _playerHealthController.RestartHealth();
     }
 
     public void SetShieldActive(bool active) => _isShieldActive = active;

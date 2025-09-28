@@ -5,22 +5,34 @@ using UnityEngine;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     public event Action<GameState> OnGameStateChanged;
-    [SerializeField] private GameDataSO _gameDataSO;
+
+    [SerializeField] private GameDataSO _gameData;
+
+    private NetworkVariable<int> _gameTimer = new NetworkVariable<int>(
+        0, 
+        NetworkVariableReadPermission.Everyone, 
+        NetworkVariableWritePermission.Owner
+    );
+
     [SerializeField] private GameState _currentGameState;
-    private NetworkVariable<int> _gameTimer = new NetworkVariable<int>(0);
 
-
-    void Awake()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
     }
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            _gameTimer.Value = _gameDataSO.GameTimer;
+            _gameTimer.Value = _gameData.GameTimer;
             SetTimerTextRpc();
             InvokeRepeating(nameof(DecreaseTimer), 1f, 1f);
         }
@@ -35,7 +47,6 @@ public class GameManager : NetworkBehaviour
         if (IsServer && newValue <= 0)
         {
             ChangeGameState(GameState.GameOver);
-
         }
     }
 
@@ -44,7 +55,6 @@ public class GameManager : NetworkBehaviour
     {
         TimerUI.Instance.SetTimerUI(_gameTimer.Value);
     }
-
 
     private void DecreaseTimer()
     {
@@ -61,12 +71,12 @@ public class GameManager : NetworkBehaviour
 
     public void ChangeGameState(GameState newGameState)
     {
-        if (!IsServer) { return; }
-
-        _currentGameState = newGameState;
-        ChangeGameStateRpc(newGameState);
-
-
+        if (IsServer)
+        {
+            _currentGameState = newGameState;
+            OnGameStateChanged?.Invoke(newGameState);
+            ChangeGameStateRpc(newGameState);
+        }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -74,7 +84,7 @@ public class GameManager : NetworkBehaviour
     {
         _currentGameState = newGameState;
         OnGameStateChanged?.Invoke(newGameState);
-        Debug.Log($"Game State Changed to: {_currentGameState}");
+        Debug.Log($"Game State: {newGameState}");
     }
 
     public GameState GetGameState()

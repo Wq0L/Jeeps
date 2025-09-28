@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -4264,6 +4264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f118af07c9e3040a7f964276efabae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthBarTransform: {fileID: 141977716}
+  _animationDuration: 0.75
 --- !u!1 &1433589716
 GameObject:
   m_ObjectHideFlags: 0

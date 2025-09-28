@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerVehicleController : NetworkBehaviour
@@ -61,7 +60,7 @@ public class PlayerVehicleController : NetworkBehaviour
     private void Update()
     {
         if (!IsOwner) {return;}
-        if (GameManager.Instance.GetGameState() != GameState.Playing){return;}
+        if (GameManager.Instance.GetGameState() != GameState.Playing) { return; }
 
         SetSteerInput(Input.GetAxis("Horizontal"));
         SetAccelerateInput(Input.GetAxis("Vertical"));
@@ -72,7 +71,7 @@ public class PlayerVehicleController : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner){return;}
-        if (GameManager.Instance.GetGameState() == GameState.GameOver){return;}
+        if (GameManager.Instance.GetGameState() == GameState.GameOver) { return; }
         
         UpdateSuspension();
         UpdateSteering();

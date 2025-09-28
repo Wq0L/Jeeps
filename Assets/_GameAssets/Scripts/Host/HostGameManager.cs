@@ -95,7 +95,7 @@ public class HostGameManager : IDisposable
 
         NetworkManager.Singleton.StartHost();
 
-        NetworkManager.Singleton.SceneManager.LoadScene(Consts.SceneNames.GAME_SCENE, LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(Consts.SceneNames.CHARACTER_SELECT_SCENE, LoadSceneMode.Single);
     }
     private IEnumerator HartbeatLobby(float waitTimeSeconds)
     {
@@ -108,9 +108,14 @@ public class HostGameManager : IDisposable
         }
     }
 
+    public String GetJoinCode()
+    {
+        return _joinCode;
+    }
+
     public async void Shutdown()
     {
-         HostSingleton.Instance.StopCoroutine(nameof(HartbeatLobby));
+        HostSingleton.Instance.StopCoroutine(nameof(HartbeatLobby));
 
         if (!string.IsNullOrEmpty(_lobbyId))
         {

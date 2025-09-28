@@ -49,6 +49,11 @@ public class SpikeDamageable : NetworkBehaviour, IDamageble
     {
         return _mysteryBoxSkillsSO.SkillData.RespawnTimer;
     }
+        public int GetDamageAmount()
+    {
+        
+        return _mysteryBoxSkillsSO.SkillData.DamageAmount;
+    }
         public override void OnNetworkDespawn()
     {
         if (!IsOwner) { return; }

@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerVehicleVisualController : NetworkBehaviour
 {
     [SerializeField] private PlayerVehicleController _playerVehicleController;
+    [SerializeField] private CharacterSelectVisual _characerSelectVisual;
     [SerializeField] private Transform _jeepVisualTransform;
     [SerializeField] private Collider _playerCollider;
     [SerializeField] private Transform _wheelFrontLeft, _wheelFrontRight, _wheelBackLeft, _wheelBackRight;
@@ -47,6 +48,10 @@ public class PlayerVehicleVisualController : NetworkBehaviour
 
         _springRestLength = _playerVehicleController.Settings.SpringRestLength;
         _steerAngle = _playerVehicleController.Settings.SteerAngle;
+
+
+        PlayerDataSerialzable playerData = MultiplayerGameManager.Instance.GetPlayerDataFromClientId(OwnerClientId);
+        _characerSelectVisual.SetPlayerColor(MultiplayerGameManager.Instance.GetPlayerColor(playerData.ColorId));
     }
 
     private void Update()

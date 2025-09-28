@@ -2957,6 +2957,7 @@ MonoBehaviour:
   _lobbiesBackgroundTransform: {fileID: 700028316}
   _lobbiesParentObject: {fileID: 269019580}
   _lobbiesListUI: {fileID: 269019582}
+  _welcomeText: {fileID: 1765311514}
 --- !u!1 &2070962182
 GameObject:
   m_ObjectHideFlags: 0
