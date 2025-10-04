@@ -23,10 +23,10 @@ public class MineDammageable : NetworkBehaviour, IDamageble
         DestroyRpc();
     }
 
-    public void Damage(PlayerVehicleController playerVehicleController)
+    public void Damage(PlayerVehicleController playerVehicleController, string playerName)
     {
         playerVehicleController.CrashVehicle();
-         KillScreenUI.Instance.SetSmashedUI("cemal", _mysteryBoxSkillsSO.SkillData.RespawnTimer);
+         KillScreenUI.Instance.SetSmashedUI(playerName, _mysteryBoxSkillsSO.SkillData.RespawnTimer);
         DestroyRpc();
     }
 
@@ -60,6 +60,16 @@ public class MineDammageable : NetworkBehaviour, IDamageble
     {
         
         return _mysteryBoxSkillsSO.SkillData.DamageAmount;
+    }
+        public string GetKillerName()
+    {
+        ulong killerClientId = GetKillerClientId();
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(killerClientId, out var killerClient))
+        {
+            string playerName = killerClient.PlayerObject.GetComponent<PlayerNetworkController>().PlayerName.Value.ToString();
+            return playerName;
+        }
+        return string.Empty;
     }
     
         public override void OnNetworkDespawn()

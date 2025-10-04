@@ -1,26 +1,25 @@
 using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 [InitializeOnLoad]
-public static class LoadFirstScene
+public static class StartupSceneLoader
 {
-    static LoadFirstScene()
+    static StartupSceneLoader()
     {
-        EditorApplication.playModeStateChanged += LoadScene;
+        EditorApplication.playModeStateChanged += LoadStartupScene;
     }
 
-    private static void LoadScene(PlayModeStateChange playModeStateChange)
+    private static void LoadStartupScene(PlayModeStateChange playModeStateChange)
     {
-        if (playModeStateChange == PlayModeStateChange.ExitingEditMode)
+        if(playModeStateChange == PlayModeStateChange.ExitingEditMode)
         {
             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
         }
 
-        if (playModeStateChange == PlayModeStateChange.EnteredPlayMode)
+        if(playModeStateChange == PlayModeStateChange.EnteredPlayMode)
         {
-            if (EditorSceneManager.GetActiveScene().buildIndex != 0)
+            if(EditorSceneManager.GetActiveScene().buildIndex != 0)
             {
                 EditorSceneManager.LoadScene(0);
             }

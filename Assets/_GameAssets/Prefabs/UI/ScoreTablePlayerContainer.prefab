@@ -273,6 +273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8979725880057802945}
+  - component: {fileID: 6769327129937811033}
   - component: {fileID: 551152682852419805}
   - component: {fileID: 7590016219676520026}
   m_Layer: 5
@@ -304,6 +305,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 968, y: 127}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6769327129937811033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2169766729742568957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e774f015cdddc14eb35ce06601b08b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rankingText: {fileID: 3591251692812767244}
+  _playerNameText: {fileID: 6224254183733384066}
+  _killsText: {fileID: 5250767794691034039}
+  _ownerColor: {r: 0, g: 1, b: 0.8565588, a: 0}
 --- !u!222 &551152682852419805
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -581,7 +598,7 @@ GameObject:
   - component: {fileID: 6815663192944438853}
   - component: {fileID: 5250767794691034039}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: KillsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
