@@ -4,6 +4,7 @@ using Unity.Netcode;
 public class SpikeDamageable : NetworkBehaviour, IDamageble
 {
     [SerializeField] private MysteryBoxSkillsSO _mysteryBoxSkillsSO;
+    [SerializeField] private GameObject _explosionVFXPrefab;
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) { return; }
@@ -26,6 +27,7 @@ public class SpikeDamageable : NetworkBehaviour, IDamageble
     public void Damage(PlayerVehicleController playerVehicleController, string playerName)
     {
         playerVehicleController.CrashVehicle();
+        PlayerParticlesRpc(playerVehicleController.transform.position);
         KillScreenUI.Instance.SetSmashedUI(playerName, _mysteryBoxSkillsSO.SkillData.RespawnTimer);
 
     }
@@ -38,6 +40,13 @@ public class SpikeDamageable : NetworkBehaviour, IDamageble
             Destroy(gameObject);
         }
 
+    }
+    [Rpc(SendTo.Server)]
+    private void PlayerParticlesRpc(Vector3 vehiclePosition = default)
+    {
+        if (!IsServer) { return; }
+        GameObject explosionVFXInstance = Instantiate(_explosionVFXPrefab, vehiclePosition, Quaternion.identity);
+        explosionVFXInstance.GetComponent<NetworkObject>().Spawn();
     }
     
         public ulong GetKillerClientId()

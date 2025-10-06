@@ -11,7 +11,7 @@ public class MystreyBoxCollectables : NetworkBehaviour, ICollectables
     [Header("Mystery Box Settings")]
     [SerializeField] private float _respawnTimer;
 
-    public void Collect(PlayerSkillController playerSkillController)
+    public void Collect(PlayerSkillController playerSkillController, CameraSake cameraShake)
     {
         if (playerSkillController.HasSkillAlready())
         {
@@ -22,6 +22,8 @@ public class MystreyBoxCollectables : NetworkBehaviour, ICollectables
         SkillsUI.Instance.SetSkill(skill.SkillName, skill.SkillIcon, skill.SkillUsageType, skill.SkillData.SpawnAmountOrTimer);
         playerSkillController.SetupSkill(skill);
         CollectRpc();
+
+        cameraShake.ShakeCamera(0.8f, 0.4f);
     }
 
     [Rpc(SendTo.ClientsAndHost)]

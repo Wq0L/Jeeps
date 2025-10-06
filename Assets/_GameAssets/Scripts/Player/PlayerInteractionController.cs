@@ -6,6 +6,7 @@ using Unity.Collections;
 
 public class PlayerInteractionController : NetworkBehaviour
 {
+    [SerializeField] private CameraSake _cameraShake;
     private PlayerSkillController _playerSkillController;
     private PlayerVehicleController _playerVehicleController;
     private PlayerHealthController _playerHealthController;
@@ -51,7 +52,7 @@ public class PlayerInteractionController : NetworkBehaviour
     {
         if (other.gameObject.TryGetComponent(out ICollectables collectable))
         {
-            collectable.Collect(_playerSkillController);
+            collectable.Collect(_playerSkillController, _cameraShake);
         }
     }
 
@@ -73,7 +74,7 @@ public class PlayerInteractionController : NetworkBehaviour
     {
         var playerName = _playerNetworkController.PlayerName.Value;
 
-
+        _cameraShake.ShakeCamera(3f, 0.8f);
         damageable.Damage(_playerVehicleController, damageable.GetKillerName());
         _playerHealthController.TakeDamage(damageable.GetDamageAmount());
         SetKillerUIRpc(damageable.GetKillerClientId(), playerName.ToString(),

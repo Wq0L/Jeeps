@@ -4,6 +4,7 @@ using Unity.Netcode;
 public class MineDammageable : NetworkBehaviour, IDamageble
 {
     [SerializeField] private MysteryBoxSkillsSO _mysteryBoxSkillsSO;
+    [SerializeField] private GameObject _explosionVFXPrefab;
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) { return; }
@@ -20,31 +21,37 @@ public class MineDammageable : NetworkBehaviour, IDamageble
 
     private void PlayerVehicleController_OnVehicleCrash()
     {
-        DestroyRpc();
+        DestroyRpc(false);
     }
 
     public void Damage(PlayerVehicleController playerVehicleController, string playerName)
     {
         playerVehicleController.CrashVehicle();
          KillScreenUI.Instance.SetSmashedUI(playerName, _mysteryBoxSkillsSO.SkillData.RespawnTimer);
-        DestroyRpc();
+        DestroyRpc(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out ShieldController shieldController))
         {
-            DestroyRpc();
+            DestroyRpc(true);
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void DestroyRpc()
+    private void DestroyRpc(bool isExplosion)
     {
+
         if (IsServer)
-        {
-            Destroy(gameObject);
-        }
+            {
+                if (isExplosion)
+                {
+                GameObject explosionVFXInstance = Instantiate(_explosionVFXPrefab, transform.position, Quaternion.identity);
+                explosionVFXInstance.GetComponent<NetworkObject>().Spawn();
+                }
+                Destroy(gameObject);
+            }
 
     }
     
